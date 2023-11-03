@@ -1,0 +1,22 @@
+    pipeline {
+            agent any
+            stages {
+                stage('checkout'){
+                    steps {
+                        checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/kliakos/sparkjava-war-example.git']])
+                        
+                    }
+                }
+                stgae('build'){
+                    steps {
+                        sh 'mvn package'
+                    
+                    }
+                }
+                stage('upload') {
+                    steps {
+                        nexusArtifactUploader artifacts: [[artifactId: 'sample-java', classifier: '', file: '/var/lib/jenkins/workspace/pipeline/target/sparkjava-hello-world-1.0.war', type: 'war']], credentialsId: 'nexus', groupId: 'jenkins', nexusUrl: '54.160.255.252:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'java', version: '$BUILD_NUMBER'
+                    }
+                }
+            }
+        }
