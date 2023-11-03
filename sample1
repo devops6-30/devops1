@@ -7,7 +7,7 @@ pipeline {
                 
             }
         }
-        stgae('build'){
+        stage('build'){
             steps {
                 sh 'mvn package'
             
