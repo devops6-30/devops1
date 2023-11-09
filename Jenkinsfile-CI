@@ -8,6 +8,9 @@
                     }
                 }
                 stage('build'){
+                   when {
+                        branch 'ram'
+                   }
                     steps {
                         sh 'mvn package'
                     
